@@ -5,11 +5,13 @@ namespace eCommerceTP1
     public class eCommerceTP1DbContext : DbContext
     {
         // Les DbSets pour chaque modele
-        // public DbSet<Models.Client> Clients { get; set; }
-        // public DbSet<Models.Vendeur> Vendeurs { get; set; }
-        // public DbSet<Models.Produit> Produits { get; set; }
-        // public DbSet<Models.Panier> Paniers { get; set; }
-        // public DbSet<Models.Facture> Factures { get; set; }
+        public DbSet<Models.Client> Clients { get; set; }
+        public DbSet<Models.Vendeur> Vendeurs { get; set; }
+        public DbSet<Models.Produit> Produits { get; set; }
+        public DbSet<Models.Panier> Paniers { get; set; }
+        public DbSet<Models.ProduitPanier> ProduitPaniers { get; set; }
+        public DbSet<Models.Facture> Factures { get; set; }
+        public DbSet<Models.ProduitFacture> ProduitFactures { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connection_string = "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
