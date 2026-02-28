@@ -1,0 +1,71 @@
+﻿@{
+  
+}
+
+<h2>Créer un compte</h2>
+
+<form method="post" asp-action="Register">
+
+    <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" name="FirstName" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Nom de famille</label>
+        <input type="text" name="LastName" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Genre</label>
+        <select name="Gender" class="form-control" required>
+            <option value="">-- Sélectionner --</option>
+            <option value="Homme">Homme</option>
+            <option value="Femme">Femme</option>
+            <option value="Autre">Autre</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="Email" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Téléphone</label>
+        <input type="tel" name="Phone" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Nom d'utilisateur</label>
+        <input type="text" name="Username" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" name="Password" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Date de naissance</label>
+        <input type="date" name="BirthDate" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Pays</label>
+        <input type="text" name="Country" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Rôle</label>
+        <select name="Role" class="form-control" required>
+            <option value="">-- Sélectionner --</option>
+            <option value="Client">Client</option>
+            <option value="Vendeur">Vendeur</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Créer le compte</button>
+
+</form>
+

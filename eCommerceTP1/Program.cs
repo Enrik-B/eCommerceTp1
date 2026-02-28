@@ -1,4 +1,5 @@
 using eCommerceTP1.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceTP1
 {
@@ -11,6 +12,11 @@ namespace eCommerceTP1
             builder.Services.AddMvc(option => option.EnableEndpointRouting = false);
 
             builder.Services.AddScoped<PanierService>();
+            builder.Services.AddDbContext<eCommerceTP1DbContext>(
+                options => options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
+                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+                )
+             );
 
             var app = builder.Build();
             // Routes

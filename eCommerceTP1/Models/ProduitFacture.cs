@@ -1,7 +1,10 @@
-﻿namespace eCommerceTP1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace eCommerceTP1.Models
 {
     public class ProduitFacture
     {
+        [Key]
         public int Id { get; set; }
         public int ProduitId { get; set; }
         public Produit Produit { get; set; }
