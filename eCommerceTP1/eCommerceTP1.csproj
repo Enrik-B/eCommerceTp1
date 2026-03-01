@@ -21,4 +21,10 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Images\ImageHome1.png" />
+    <None Include="wwwroot\Images\ImageHome2.png" />
+    <None Include="wwwroot\Images\ImageHome3.png" />
+  </ItemGroup>
+
 </Project>

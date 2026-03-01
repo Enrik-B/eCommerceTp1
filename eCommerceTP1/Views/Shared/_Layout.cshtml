@@ -1,16 +1,85 @@
 ﻿<!DOCTYPE html>
-
-<html>
+<html lang="fr">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f4f6f9; 
+        }
+
+        .navbar {
+            background-color: #1f3c88 !important; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+            .navbar .navbar-brand,
+            .navbar .nav-link {
+                color: #ffffff !important;
+                font-weight: 500;
+                letter-spacing: 0.5px;
+            }
+
+                .navbar .nav-link:hover {
+                    color: #cfd8dc !important; 
+                }
+
+        .main-container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+        footer {
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
-    <div>
 
+    <!-- NAVBAR PARTAGÉE -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/Home/Index">
+                <img src="/images/logo.png" alt="Logo"
+                style="height:40px; width:40px; border-radius:50%; object-fit:cover;"
+                class="me-2" />
+                <span class="fw-bold">ShopEasy</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Inscription">Inscription</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container">
         @RenderBody()
-        <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     </div>
+
+    <footer class="text-center mt-5 p-3 bg-light">
+        © @DateTime.Now.Year - MonApp
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
