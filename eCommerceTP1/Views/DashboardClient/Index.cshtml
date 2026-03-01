@@ -1,11 +1,41 @@
 ﻿@model List<eCommerceTP1.Models.Produit>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     Layout = "_Layout";
 }
 
+<h2 class="mb-2 text-primary">Dashboard Client</h2>
+<p class="text-muted">Bienvenue sur votre espace client. Découvrez nos produits !</p>
 
-<h2 class="mb-4 text-primary">Dashboard Client</h2>
+<!-- Barre de recherche -->
+<form method="get" asp-action="Index" class="mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" name="search" class="form-control"
+                   placeholder="Rechercher un produit..."
+                   value="@Context.Request.Query["search"]" />
+        </div>
+        <div class="col-md-4">
+            <select name="category" class="form-select">
+                <option value="">Toutes les catégories</option>
+                @if (ViewBag.Categories != null)
+                {
+                    foreach (var cat in ViewBag.Categories)
+                    {
+                        <option value="@cat"
+                                selected="@(Context.Request.Query["category"] == cat)">
+                            @cat
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+        </div>
+    </div>
+</form>
 
 <div class="row">
     @if (Model != null && Model.Any())
@@ -14,21 +44,36 @@
         {
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm h-100">
-                    <img src="@product.Image" class="card-img-top" style="height:200px; object-fit:cover;" />
+                    <img src="@product.Image" class="card-img-top" style="height:350px; object-fit:cover;" />
 
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@product.Title</h5>
                         <p class="card-text">
-                            @product.Description.Substring(0, Math.Min(product.Description.Length, 80))...
+                            @product.Description.Substring(0, Math.Min(product.Description.Length, 100))...
                         </p>
 
                         <p class="fw-bold text-primary mt-auto">
                             @product.Price $
                         </p>
+                        <div class="row">
+                            <div class="col-6">
+                                <a asp-controller="DashboardClient"
+                                   asp-action="DetailProduit"
+                                   asp-route-id="@product.Id"
+                                   class="btn btn-outline-primary w-100">
+                                    Voir produit
+                                </a>
+                            </div>
 
-                        <a href="#" class="btn btn-outline-primary w-100">
-                            Voir produit
-                        </a>
+                            <div class="col-6">
+                                <a class="btn btn-primary w-100">
+                                    Ajouter au panier
+                                </a>
+                            </div>
+                        </div>
+
+                        
+                        
                     </div>
                 </div>
             </div>
