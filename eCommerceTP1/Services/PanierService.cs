@@ -1,5 +1,4 @@
 ﻿using eCommerceTP1.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceTP1.Services
 {
@@ -17,7 +16,7 @@ namespace eCommerceTP1.Services
         }
         public void AddPanier(Panier panier) 
         {
-            _dbContext.Add(panier);
+            _dbContext.Paniers.Add(panier);
             _dbContext.SaveChanges();
         }
         public void ViderPanier(Panier panier) 

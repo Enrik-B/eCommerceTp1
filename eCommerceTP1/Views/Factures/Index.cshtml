@@ -1,0 +1,25 @@
+﻿@{
+
+}
+@model List<eCommerceTP1.Models.Facture>
+
+<h1>Factures</h1>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Date</th>
+			<th scope="col">Prix</th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var facture in Model)
+	{
+		<tr>
+			<th scope="row">@facture.Id</th>
+			<td>@facture.DateTime</td>
+			<td>@facture</td>
+		</tr>
+	}
+	</tbody>
+</table>
