@@ -44,8 +44,16 @@ namespace eCommerceTP1.Controllers
             // Stockage en session
             HttpContext.Session.SetString("UserId", user.Id.ToString());
             HttpContext.Session.SetString("UserRole", user.Role);
-            // Retourner une phrase au lieu d'une redirection
-            return Content($"Connecté en tant que {user.Role}"); 
+            // Redirection selon le rôle
+            if (user.Role == "Client")
+            {
+                return RedirectToAction("Index", "DashboardClient");
+            }
+            else if (user.Role == "Vendeur")
+            {
+                return RedirectToAction("Index", "DashboardVendeur");
+            }
+            return RedirectToAction("Index", "Home");
         } 
     }
 

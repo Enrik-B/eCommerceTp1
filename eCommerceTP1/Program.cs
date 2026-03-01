@@ -11,6 +11,7 @@ namespace eCommerceTP1
 
             builder.Services.AddMvc(option => option.EnableEndpointRouting = false);
             builder.Services.AddSession();
+            builder.Services.AddHttpClient();
 
             builder.Services.AddScoped<PanierService>();
             builder.Services.AddScoped<FactureService>();

@@ -17,7 +17,7 @@
 		{
 			<tr>
 				<th scope="row">@produitPanier.ProduitId</th>
-				<td>@produitPanier.Produit.Titre</td>
+				<td>@produitPanier.Produit.Title</td>
 				<td>
 					<button class="btn btn-success btn-sm">
 						<i class="bi bi-plus"></i>
@@ -27,7 +27,7 @@
 						<i class="bi bi-dash"></i>
 					</button>
 				</td>
-				<td>@(Math.Round(produitPanier.Produit.Prix * produitPanier.Quantite, 2) + " $")</td>
+				<td>@(Math.Round(produitPanier.Produit.Price * produitPanier.Quantite, 2) + " $")</td>
 			</tr>
 		}
 	</tbody>
@@ -36,7 +36,7 @@
 			<th scope="row">Total</th>
 			<td></td>
 			<td></td>
-			<td>@(Math.Round(Model.ProduitsPanier.Sum(prodPanier => prodPanier.Produit.Prix * prodPanier.Quantite),2) + " $")</td>
+			<td>@(Math.Round(Model.ProduitsPanier.Sum(prodPanier => prodPanier.Produit.Price * prodPanier.Quantite),2) + " $")</td>
 		</tr>
 	</tfoot>
 </table>
