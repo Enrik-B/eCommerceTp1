@@ -10,6 +10,7 @@ namespace eCommerceTP1
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddMvc(option => option.EnableEndpointRouting = false);
+            builder.Services.AddSession();
 
             builder.Services.AddScoped<PanierService>();
             builder.Services.AddDbContext<eCommerceTP1DbContext>(
@@ -19,6 +20,8 @@ namespace eCommerceTP1
              );
 
             var app = builder.Build();
+            app.UseSession();
+            app.UseStaticFiles();
             // Routes
             app.UseMvc(routes => routes.MapRoute("Default", "{controller=Home}/{action=Index}"));
             app.Run();
