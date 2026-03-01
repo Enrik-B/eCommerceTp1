@@ -20,6 +20,5 @@ namespace eCommerceTP1.Services
             _dbContext.Factures.Add(facture);
             _dbContext.SaveChanges();
         }
-        public void 
     }
 }

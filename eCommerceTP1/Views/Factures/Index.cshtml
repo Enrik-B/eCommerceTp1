@@ -1,5 +1,5 @@
 ﻿@{
-
+	Layout = "_Layout";
 }
 @model List<eCommerceTP1.Models.Facture>
 
@@ -7,18 +7,20 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th scope="col">#</th>
+			<th scope="col">Client/Vendeur</th> <!--À REVOIR (DÉPEND DE LA SESSION UTILISATEUR)-->
 			<th scope="col">Date</th>
 			<th scope="col">Prix</th>
+			<th scope="col">Détails</th>
 		</tr>
 	</thead>
 	<tbody>
 	@foreach (var facture in Model)
 	{
 		<tr>
-			<th scope="row">@facture.Id</th>
-			<td>@facture.DateTime</td>
-			<td>@facture</td>
+			<th scope="row">@facture.user.Username</th>
+			<td>@facture.FactureTime</td>
+			<td>@(Math.Round(facture.ProduitsFacture.Sum(prodFacture => prodFacture.Produit.Prix * prodFacture.Quantite),2) + " $")</td>
+			<td><a class="btn btn-secondary" asp-controller="Facture" asp-action="Details" asp-route-id="@facture.Id"><i class="bi bi-search"></i></a></td>
 		</tr>
 	}
 	</tbody>

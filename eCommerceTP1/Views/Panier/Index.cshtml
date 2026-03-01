@@ -1,0 +1,42 @@
+﻿@{
+	Layout = "_Layout";
+}
+@model eCommerceTP1.Models.Panier
+<h1>Votre panier</h1>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Nom</th>
+			<th scope="col">Quantite</th>
+			<th scope="col">Prix</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var produitPanier in Model.ProduitsPanier)
+		{
+			<tr>
+				<th scope="row">@produitPanier.ProduitId</th>
+				<td>@produitPanier.Produit.Titre</td>
+				<td>
+					<button class="btn btn-success btn-sm">
+						<i class="bi bi-plus"></i>
+					</button>
+					@produitPanier.Quantite
+					<button class="btn btn-danger btn-sm">
+						<i class="bi bi-dash"></i>
+					</button>
+				</td>
+				<td>@(Math.Round(produitPanier.Produit.Prix * produitPanier.Quantite, 2) + " $")</td>
+			</tr>
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th scope="row">Total</th>
+			<td></td>
+			<td></td>
+			<td>@(Math.Round(Model.ProduitsPanier.Sum(prodPanier => prodPanier.Produit.Prix * prodPanier.Quantite),2) + " $")</td>
+		</tr>
+	</tfoot>
+</table>

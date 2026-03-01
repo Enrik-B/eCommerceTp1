@@ -14,5 +14,9 @@ namespace eCommerceTP1.Controllers
         {
             return View();
         }
+        public IActionResult AddProduit() 
+        {
+            return Ok();
+        }
     }
 }

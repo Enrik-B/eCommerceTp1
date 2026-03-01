@@ -13,6 +13,7 @@ namespace eCommerceTP1
             builder.Services.AddSession();
 
             builder.Services.AddScoped<PanierService>();
+            builder.Services.AddScoped<FactureService>();
             builder.Services.AddDbContext<eCommerceTP1DbContext>(
                 options => options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
                 ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))

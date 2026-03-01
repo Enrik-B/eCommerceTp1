@@ -1,0 +1,39 @@
+﻿@{
+	Layout = "_Layout";
+}
+@model eCommerceTP1.Models.Facture
+
+<h1>@("Facture "+Model.Id)</h1>
+<h2>@("Date: "+Model.FactureTime</h2>
+<h3>@("Client: "+Model.user.Username)</h3>
+<h3>@("Vendeur: "+Model.user.Username)</h3>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Nom</th>
+			<th scope="col">Quantite</th>
+			<th scope="col">Prix</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var produitFacture in Model.ProduitsFacture)
+		{
+			<tr>
+				<th scope="row">@produitFacture.ProduitId</th>
+				<td>@produitFacture.Produit.Titre</td>
+				<td>@produitFacture.Quantite</td>
+				<td>@(Math.Round(produitFacture.Produit.Prix * produitFacture.Quantite, 2) + " $")</td>
+			</tr>
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th scope="row">Total</th>
+			<td></td>
+			<td></td>
+			<td>@(Math.Round(Model.ProduitsFacture.Sum(prodFacture => prodFacture.Produit.Prix * prodFacture.Quantite), 2) + " $")</td>
+		</tr>
+	</tfoot>
+</table>

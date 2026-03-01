@@ -13,6 +13,7 @@ namespace eCommerceTP1.Models
 
         [ForeignKey("userId")]
         public User user { get; set; }
+        public string FactureTime { get; set; } = DateTime.Now.ToLongDateString();
         public ICollection<ProduitFacture> ProduitsFacture { get; set; } = new List<ProduitFacture>();
     }
 }

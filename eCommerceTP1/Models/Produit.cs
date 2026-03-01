@@ -9,7 +9,7 @@ namespace eCommerceTP1.Models
         public int Id { get; set; }
         public string Titre { get; set; }
         public string Description { get; set; }
-        public float Prix { get; set; }
+        public Decimal Prix { get; set; }
         public string Categorie { get; set; }
         // Lien URL à l'image
         public string Image { get; set; }
