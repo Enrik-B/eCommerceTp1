@@ -22,8 +22,11 @@ namespace eCommerceTP1
              );
 
             var app = builder.Build();
-            app.UseSession();
             app.UseStaticFiles();
+            app.UseRouting();
+            app.UseSession();
+            app.UseAuthorization();
+
             // Routes
             app.UseMvc(routes => routes.MapRoute("Default", "{controller=Home}/{action=Index}"));
             app.Run();

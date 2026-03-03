@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model eCommerceTP1.Models.User
+
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h2 class="mb-4 text-center">Mon Profil</h2>
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success text-center">
+                @TempData["Message"]
+            </div>
+        }
+
+
+        <form asp-action="Profile" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FirstName" class="form-label">Nom :</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div>
+                    <p>Session ID: @Context.Session.GetString("UserId")</p>
+                </div>
+               <div>
+                    <p><strong>DEBUG :</strong> @Model?.FirstName - @Model?.LastName</p>
+               </div> 
+
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="LastName" class="form-label">Prénom :</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Gender" class="form-label">Genre :</label>
+                <select asp-for="Gender" class="form-select">
+                    <option value="">-- Sélectionner --</option>
+                    <option>Homme</option>
+                    <option>Femme</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email : </label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label">Numéro de téléphone :</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Country" class="form-label">Pays :</label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="BirthDate" class="form-label">Date de naissance :</label>
+                <input asp-for="BirthDate" type="date" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-5">
+                    Enregistrer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
