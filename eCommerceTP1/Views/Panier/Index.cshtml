@@ -1,6 +1,7 @@
 ﻿@{
 	Layout = "_Layout";
 }
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model eCommerceTP1.Models.Panier
 <h1>Votre panier</h1>
 <table class="table table-striped">
@@ -17,17 +18,28 @@
 		{
 			<tr>
 				<th scope="row">@produitPanier.ProduitId</th>
-				<td>@produitPanier.Produit.Title</td>
+				<td><a asp-controller="DashboardClient"
+                       asp-action="DetailProduit"
+					   asp-route-id="@produitPanier.ProduitId">@produitPanier.Produit.GetAPIProduit().Title</a>
+				</td>
 				<td>
-					<button class="btn btn-success btn-sm">
+					<button class="btn btn-success btn-sm"
+						asp-controller="Panier"
+						asp-action="AddProduitToPanier"
+						asp-route-id="@produitPanier.ProduitId"
+					>
 						<i class="bi bi-plus"></i>
 					</button>
 					@produitPanier.Quantite
-					<button class="btn btn-danger btn-sm">
+					<button class="btn btn-danger btn-sm"
+						asp-controller="Panier"
+						asp-action="RemoveProduitToPanier"
+						asp-route-id="@produitPanier.ProduitId"
+					>
 						<i class="bi bi-dash"></i>
 					</button>
 				</td>
-				<td>@(Math.Round(produitPanier.Produit.Price * produitPanier.Quantite, 2) + " $")</td>
+				<td>@(Math.Round(produitPanier.Produit.GetAPIProduit().Price * produitPanier.Quantite, 2) + " $")</td>
 			</tr>
 		}
 	</tbody>
@@ -36,7 +48,9 @@
 			<th scope="row">Total</th>
 			<td></td>
 			<td></td>
-			<td>@(Math.Round(Model.ProduitsPanier.Sum(prodPanier => prodPanier.Produit.Price * prodPanier.Quantite),2) + " $")</td>
+			<td>@(Math.Round(Model.ProduitsPanier.Sum(prodPanier => prodPanier.Produit.GetAPIProduit().Price * prodPanier.Quantite),2) + " $")</td>
 		</tr>
 	</tfoot>
 </table>
+
+<button class="btn btn-primary">Commander</button>

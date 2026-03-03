@@ -24,7 +24,7 @@ namespace eCommerceTP1.Services
             panier.ProduitsPanier.Clear();
             _dbContext.SaveChanges();
         }
-        // Retourne null si le produit n'existe pas dans le panier.
+        // Retourne null si le produit n'existe pas dans le Panier.
         public ProduitPanier? estDansPanier(Panier panier, Produit produit) 
         {
             foreach (ProduitPanier item in panier.ProduitsPanier)
@@ -36,7 +36,7 @@ namespace eCommerceTP1.Services
             }
             return null;
         }
-        // Si le produit n'existe pas dans le panier, on crée une instance ProduitPanier.
+        // Si le produit n'existe pas dans le Panier, on crée une instance ProduitPanier.
         public void AddProduitPanier(Panier panier, Produit produit) 
         {
             ProduitPanier? produitPanier = estDansPanier(panier, produit);
@@ -72,6 +72,7 @@ namespace eCommerceTP1.Services
                 return false;
             }
         }
+
         // Ne doit être utilisé que lorsque le client associé n'existe plus.
         public void DeletePanier(Panier panier) 
         {

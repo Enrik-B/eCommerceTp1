@@ -7,9 +7,9 @@ namespace eCommerceTP1.Models
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("clientId")]
-        public int clientId { get; set; }
-        public User Client { get; set; }
+        [ForeignKey(nameof(User))]
+        public int UserId { get; set; }
+        public User User { get; set; }
         public ICollection<ProduitPanier> ProduitsPanier { get; set; } = new List<ProduitPanier>();
 
     }

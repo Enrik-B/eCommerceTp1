@@ -22,9 +22,9 @@
 		{
 			<tr>
 				<th scope="row">@produitFacture.ProduitId</th>
-				<td>@produitFacture.Produit.Title</td>
+				<td>@produitFacture.Produit.GetAPIProduit()</td>
 				<td>@produitFacture.Quantite</td>
-				<td>@(Math.Round(produitFacture.Produit.Price * produitFacture.Quantite, 2) + " $")</td>
+				<td>@(Math.Round(produitFacture.Produit.GetAPIProduit().Price * produitFacture.Quantite, 2) + " $")</td>
 			</tr>
 		}
 	</tbody>
@@ -33,7 +33,7 @@
 			<th scope="row">Total</th>
 			<td></td>
 			<td></td>
-			<td>@(Math.Round(Model.ProduitsFacture.Sum(prodFacture => prodFacture.Produit.Price * prodFacture.Quantite), 2) + " $")</td>
+			<td>@(Math.Round(Model.ProduitsFacture.Sum(prodFacture => prodFacture.Produit.GetAPIProduit().Price * prodFacture.Quantite), 2) + " $")</td>
 		</tr>
 	</tfoot>
 </table>
