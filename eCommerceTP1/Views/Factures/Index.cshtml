@@ -19,7 +19,7 @@
 		<tr>
 			<th scope="row">@facture.user.Username</th>
 			<td>@facture.FactureTime</td>
-			<td>@(Math.Round(facture.ProduitsFacture.Sum(prodFacture => prodFacture.Produit.Price * prodFacture.Quantite),2) + " $")</td>
+			<td>@(Math.Round(facture.ProduitsFacture.Sum(prodFacture => prodFacture.Produit.GetAPIProduit().Price * prodFacture.Quantite),2) + " $")</td>
 			<td><a class="btn btn-secondary" asp-controller="Facture" asp-action="Details" asp-route-id="@facture.Id"><i class="bi bi-search"></i></a></td>
 		</tr>
 	}

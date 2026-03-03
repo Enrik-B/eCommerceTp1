@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Text.Json;
 using eCommerceTP1.Models;
+using eCommerceTP1.Services;
+using System.Diagnostics;
 
 namespace eCommerceTP1.Controllers
 {
@@ -14,25 +16,24 @@ namespace eCommerceTP1.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<IActionResult> Index(string search = "", string category = "")
+        private async Task FetchProduits() 
         {
             var response = await _httpClient.GetStringAsync("https://dummyjson.com/products");
-
-            var data = JsonSerializer.Deserialize<ProduitResponse>(response, new JsonSerializerOptions
+            var produits = JsonSerializer.Deserialize<ProduitResponse>(response, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
+            Debug.WriteLine("RÉCUPÉRATION DES PRODUITS: "+produits.Products.Count());
+            ProduitResponseGlobal.Products = produits.Products;
+        }
 
-            var produits = data?.Products.Select(p => new Produit
+        public async Task<IActionResult> Index(string search = "", string category = "")
+        {
+            if (ProduitResponseGlobal.Products == null || ProduitResponseGlobal.Products.Count == 0) 
             {
-                Id = p.Id,
-                Title = p.Title,
-                Description = p.Description,
-                Price = p.Price,
-                Category = p.Category,
-                Image = p.Images?.FirstOrDefault()
-            }).ToList();
-
+                await FetchProduits();
+            }
+            List<ProduitAPI> produits = ProduitResponseGlobal.Products;
             // Filtrage
             if (!string.IsNullOrEmpty(search))
             {
@@ -53,26 +54,16 @@ namespace eCommerceTP1.Controllers
         }
         public async Task<IActionResult> DetailProduit(int id)
         {
-            var response = await _httpClient.GetStringAsync($"https://dummyjson.com/products/{id}");
-
-            var data = JsonSerializer.Deserialize<Produit>(response, new JsonSerializerOptions
+            if (ProduitResponseGlobal.Products == null || ProduitResponseGlobal.Products.Count == 0) 
             {
-                PropertyNameCaseInsensitive = true
-            });
+                await FetchProduits();
+            }
 
-            if (data == null)
+            ProduitAPI? produit = ProduitResponseGlobal.Products.Find(p => p.Id == id);
+            if (produit == null) 
+            {
                 return NotFound();
-
-            // Mapping vers le modèle produit
-            var produit = new Produit
-            {
-                Id = data.Id,
-                Title = data.Title,
-                Description = data.Description,
-                Price = data.Price,
-                Category = data.Category,
-                Image = data.Images?.FirstOrDefault()
-            };
+            }
 
             return View(produit);
         }
