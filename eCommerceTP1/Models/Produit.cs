@@ -12,7 +12,7 @@ namespace eCommerceTP1.Models
         // Produit publié par un vendeur
         [ForeignKey("VendeurId")]
         public int VendeurId { get; set; }
-        public User vendeur { get; set; }
+        public User Vendeur { get; set; }
         public ICollection<ProduitPanier> ProduitsPanier { get; set; } = new List<ProduitPanier>();
         public ICollection<ProduitFacture> ProduitsFacture { get; set; } = new List<ProduitFacture>();
         public ICollection<CommandeProduit> ProduitsCommande { get; set; } = new List<CommandeProduit>();

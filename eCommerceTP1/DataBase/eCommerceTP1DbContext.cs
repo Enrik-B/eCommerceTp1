@@ -22,7 +22,12 @@ namespace eCommerceTP1
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().HasData(
+                // pw en ordre: enrikbernier1, lyliaamiour1, easyshop1
+                new User { Id = 1, FirstName = "Enrik", LastName = "Bernier", Gender = "Homme", Email = "enrik@gmail.com", Phone = "123456789", Username = "enrikbernier", Password = "$2a$11$Ol4XWH2rNJNQxEY2WxjE3.aZZdRX/k6tc7YTJXGJpJ9SSvYO54Wpm", BirthDate = DateTime.Now, Country = "Canada", Role = "Vendeur" },
+                new User { Id = 2, FirstName = "Lylia", LastName = "Amiour", Gender = "Femme", Email = "lylia@gmail.com", Phone = "123456789", Username = "lyliamiour", Password = "$2a$11$epDbhg4jSftdxdfx2VIX5OXQHG0Vj/1Gxli.qRnFoJvmClCBmgg9u", BirthDate = DateTime.Now, Country = "Algérie", Role = "Vendeur" },
+            );
         }
     }
 }

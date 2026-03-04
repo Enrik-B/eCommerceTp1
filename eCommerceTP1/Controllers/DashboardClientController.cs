@@ -4,12 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
-<<<<<<< HEAD
-=======
-using eCommerceTP1.Models;
 using eCommerceTP1.Services;
 using System.Diagnostics;
->>>>>>> 049b9b5441a7dfba026659897023a396999d3d8a
 
 namespace eCommerceTP1.Controllers
 {
