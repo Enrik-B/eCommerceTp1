@@ -17,6 +17,7 @@
 		@foreach (var produitPanier in Model.ProduitsPanier)
 		{
 			<tr>
+				<form method="post">
 				<th scope="row">@produitPanier.ProduitId</th>
 				<td><a asp-controller="DashboardClient"
                        asp-action="DetailProduit"
@@ -24,22 +25,27 @@
 				</td>
 				<td>
 					<button class="btn btn-success btn-sm"
-						asp-controller="Panier"
-						asp-action="AddProduitToPanier"
-						asp-route-id="@produitPanier.ProduitId"
+							asp-controller="Panier"
+							asp-action="AddProduitToPanier"
+							asp-route-id="@produitPanier.ProduitId"
+							asp-route-reloadPage="true"
+							type="submit"
 					>
-						<i class="bi bi-plus"></i>
+					+
 					</button>
 					@produitPanier.Quantite
 					<button class="btn btn-danger btn-sm"
 						asp-controller="Panier"
-						asp-action="RemoveProduitToPanier"
+						asp-action="RemoveProduitFromPanier"
 						asp-route-id="@produitPanier.ProduitId"
+						asp-route-reloadPage="true"
+						type="submit"
 					>
-						<i class="bi bi-dash"></i>
+					-
 					</button>
 				</td>
 				<td>@(Math.Round(produitPanier.Produit.Price * produitPanier.Quantite, 2) + " $")</td>
+				</form>
 			</tr>
 		}
 	</tbody>

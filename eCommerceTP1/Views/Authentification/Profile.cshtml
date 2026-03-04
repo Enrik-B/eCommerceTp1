@@ -1,4 +1,5 @@
-﻿@{
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     Layout = "_Layout";
 }
 @model eCommerceTP1.Models.User
@@ -13,8 +14,6 @@
                 @TempData["Message"]
             </div>
         }
-
-
         <form asp-action="Profile" method="post">
             <input type="hidden" asp-for="Id" />
 
@@ -24,12 +23,6 @@
                     <input asp-for="FirstName" class="form-control" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                <div>
-                    <p>Session ID: @Context.Session.GetString("UserId")</p>
-                </div>
-               <div>
-                    <p><strong>DEBUG :</strong> @Model?.FirstName - @Model?.LastName</p>
-               </div> 
 
 
                 <div class="col-md-6 mb-3">

@@ -4,20 +4,7 @@
 @{
     Layout = "_Layout";
 }
-<script>
-    function AddToPanier(produitId)
-    {
-        fetch('/Panier/AddProduitToPanier?id='+produitId,
-        {
-            method: 'POST',
-        })
-        .then(response => response.json())
-        .then(data => {
-            showToast(data.titre, data.message);
-        })
-        .catch(error => console.error(error));
-    }
-</script>
+
 <h2 class="mb-2 text-primary">Dashboard Client</h2>
 <p class="text-muted">Bienvenue sur votre espace client. Découvrez nos produits !</p>
 
