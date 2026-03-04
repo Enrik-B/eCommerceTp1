@@ -1,15 +1,6 @@
 ﻿using eCommerceTP1.Models;
-using eCommerceTP1.Services;
 using Microsoft.AspNetCore.Mvc;
-
-using System.Diagnostics;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace eCommerceTP1.Controllers
 {
