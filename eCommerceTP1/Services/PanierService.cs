@@ -25,11 +25,11 @@ namespace eCommerceTP1.Services
             _dbContext.SaveChanges();
         }
         // Retourne null si le produit n'existe pas dans le Panier.
-        public ProduitPanier? estDansPanier(Panier panier, int ApiId) 
+        public ProduitPanier? estDansPanier(Panier panier, int Id) 
         {
             foreach (ProduitPanier item in panier.ProduitsPanier)
             {
-                if (item.Produit.ApiId == ApiId)
+                if (item.Produit.Id == Id)
                 {
                     return item;
                 }
@@ -37,20 +37,20 @@ namespace eCommerceTP1.Services
             return null;
         }
         // Si le produit n'existe pas dans le Panier, on crée une instance ProduitPanier.
-        public void AddProduitPanier(Panier panier, int ApiId) 
+        public void AddProduitPanier(Panier panier, int Id) 
         {
-            ProduitPanier? produitPanier = estDansPanier(panier, ApiId);
+            ProduitPanier? produitPanier = estDansPanier(panier, Id);
             if (produitPanier != null)
                 produitPanier.Quantite++;
             else
-            {/*
+            {
                 panier.ProduitsPanier.Add(new ProduitPanier
                 {
-                    ProduitId = produit.Id,
+                    ProduitId = Id,
                     PanierId = panier.Id,
                     Quantite = 1
                 });
-            */
+            
             }
             _dbContext.SaveChanges();
         }

@@ -1,6 +1,7 @@
 ﻿using eCommerceTP1.Models;
 using eCommerceTP1.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace eCommerceTP1.Controllers
@@ -10,6 +11,7 @@ namespace eCommerceTP1.Controllers
         private readonly PanierService _panierService;
         private readonly UserService _userService;
         private readonly ProduitService _produitService;
+        private readonly eCommerceTP1DbContext _context;
 
         private User? GetUser() 
         {
@@ -17,11 +19,12 @@ namespace eCommerceTP1.Controllers
             User? user = _userService.GetUserById(int.Parse(Id));
             return user;
         }
-        public PanierController(PanierService panierService, UserService userservice, ProduitService produitService)
+        public PanierController(PanierService panierService, UserService userservice, ProduitService produitService, eCommerceTP1DbContext context)
         {
             _panierService = panierService;
             _userService = userservice;
             _produitService = produitService;
+            _context = context;
         }
         public IActionResult Index()
         {
@@ -36,19 +39,19 @@ namespace eCommerceTP1.Controllers
             }
             else 
             {
-                return View(user.Panier);
+                return View(_context.Paniers.Include(p => p.ProduitsPanier).ThenInclude(pp => pp.Produit).First(p => p.UserId == user.Id));
             }
         }
         // Cette action ne rafraîchit pas la page et ne retourne qu'un JSON
         [HttpPost]
-        public IActionResult AddProduitToPanier(int id) // id Api de produit
+        public IActionResult AddProduitToPanier(int id)
         {
             User? user = GetUser();
             if (user == null) 
             {
                 return NotFound();
             }
-            ProduitAPI? produit = ProduitResponseGlobal.Products.Find(p => p.Id == id);
+            Produit? produit = _produitService.GetProduitById(id);
             if (produit == null) 
             {
                 Debug.WriteLine("Produit pas trouvé lors de AddProduitToPanier");
@@ -81,7 +84,7 @@ namespace eCommerceTP1.Controllers
                 return Json(new
                 {
                     titre = "Produit enlevé!",
-                    message = $"{produit.GetAPIProduit().Title} enlevé du panier"
+                    message = $"{produit.Title} enlevé du panier"
                 });
             } else 
             { 

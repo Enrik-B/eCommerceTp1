@@ -1,11 +1,12 @@
 ﻿using eCommerceTP1.Models;
+using eCommerceTP1.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
-using eCommerceTP1.Services;
-using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace eCommerceTP1.Controllers
 {
@@ -19,25 +20,36 @@ namespace eCommerceTP1.Controllers
             _httpClient = new HttpClient();
             _context = context;
         }
-
-        private async Task FetchProduits() 
+        // Initialiser les produits de l'API dans la base de données
+        private async Task FetchProduits()
         {
             var response = await _httpClient.GetStringAsync("https://dummyjson.com/products");
-            var produits = JsonSerializer.Deserialize<ProduitResponse>(response, new JsonSerializerOptions
+            var data = JsonSerializer.Deserialize<ProduitResponse>(response, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
-            Debug.WriteLine("RÉCUPÉRATION DES PRODUITS: "+produits.Products.Count());
-            ProduitResponseGlobal.Products = produits.Products;
+            var produits = data?.Products.Select(p => new Produit
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Description = p.Description,
+                Price = Math.Round(p.Price, 2),
+                Category = p.Category,
+                Image = p.Images?.FirstOrDefault(),
+                Images = p.Images,
+                VendeurId = p.Id < 15 ? 1 : 2
+            }).ToList();
+            await _context.Produits.AddRangeAsync(produits);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IActionResult> Index(string search = "", string category = "")
         {
-            if (ProduitResponseGlobal.Products == null || ProduitResponseGlobal.Products.Count == 0) 
+            if (_context.Produits.Any() == false)
             {
-                await FetchProduits();
+                await FetchProduits(); // Retrouve 30 produits de l'API pour initialiser une collection de produits
             }
-            List<ProduitAPI> produits = ProduitResponseGlobal.Products;
+            List<Produit> produits = _context.Produits.ToList();
             // Filtrage
             if (!string.IsNullOrEmpty(search))
             {
@@ -59,12 +71,12 @@ namespace eCommerceTP1.Controllers
         //Afficher les détails d'un produit 
         public async Task<IActionResult> DetailProduit(int id)
         {
-            if (ProduitResponseGlobal.Products == null || ProduitResponseGlobal.Products.Count == 0) 
+            if (_context.Produits.Any() == false) 
             {
                 await FetchProduits();
             }
 
-            ProduitAPI? produit = ProduitResponseGlobal.Products.Find(p => p.Id == id);
+            Produit? produit = _context.Produits.Find(id);
             if (produit == null) 
             {
                 return NotFound();

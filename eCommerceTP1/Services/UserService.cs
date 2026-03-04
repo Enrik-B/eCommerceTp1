@@ -1,4 +1,5 @@
 ﻿using eCommerceTP1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceTP1.Services
 {
@@ -11,7 +12,7 @@ namespace eCommerceTP1.Services
         }
         public User? GetUserById(int id) 
         {
-            User? user = _dbContext.Users.Find(id);
+            User? user = _dbContext.Users.Include(u => u.Panier).FirstOrDefault(u => u.Id == id);
             return user;
         }
     }

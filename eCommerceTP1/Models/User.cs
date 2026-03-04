@@ -49,6 +49,7 @@ namespace eCommerceTP1.Models
         [Required(ErrorMessage = "Le rôle est requis.")]
         public string Role { get; set; } // "Client" ou "Vendeur"
         public ICollection<Facture> Factures { get; set; } = new List<Facture>();
+        public ICollection<Produit> produits { get; set; } = new List<Produit>();
         public Panier? Panier { get; set; }
     }
 }

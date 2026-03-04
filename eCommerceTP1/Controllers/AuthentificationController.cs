@@ -20,7 +20,11 @@ namespace eCommerceTP1.Controllers
         public IActionResult Inscription(User user)
         {
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            if (user.Role == "Client") { user.Panier = new Panier(); }
+            if (user.Role == "Client") {
+                Panier panier = new Panier();
+                user.Panier = panier;
+                _context.Paniers.Add(panier);
+            }
             _context.Users.Add(user);
             _context.SaveChanges();
             return RedirectToAction("Login");
@@ -57,6 +61,5 @@ namespace eCommerceTP1.Controllers
             return RedirectToAction("Index", "Home");
         } 
     }
-
 }   
 

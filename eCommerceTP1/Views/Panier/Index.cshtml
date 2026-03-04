@@ -20,7 +20,7 @@
 				<th scope="row">@produitPanier.ProduitId</th>
 				<td><a asp-controller="DashboardClient"
                        asp-action="DetailProduit"
-					   asp-route-id="@produitPanier.ProduitId">@produitPanier.Produit.GetAPIProduit().Title</a>
+					   asp-route-id="@produitPanier.ProduitId">@produitPanier.Produit.Title</a>
 				</td>
 				<td>
 					<button class="btn btn-success btn-sm"
@@ -39,7 +39,7 @@
 						<i class="bi bi-dash"></i>
 					</button>
 				</td>
-				<td>@(Math.Round(produitPanier.Produit.GetAPIProduit().Price * produitPanier.Quantite, 2) + " $")</td>
+				<td>@(Math.Round(produitPanier.Produit.Price * produitPanier.Quantite, 2) + " $")</td>
 			</tr>
 		}
 	</tbody>
@@ -48,7 +48,7 @@
 			<th scope="row">Total</th>
 			<td></td>
 			<td></td>
-			<td>@(Math.Round(Model.ProduitsPanier.Sum(prodPanier => prodPanier.Produit.GetAPIProduit().Price * prodPanier.Quantite),2) + " $")</td>
+			<td>@(Math.Round(Model.ProduitsPanier.Sum(prodPanier => prodPanier.Produit.Price * prodPanier.Quantite),2) + " $")</td>
 		</tr>
 	</tfoot>
 </table>
