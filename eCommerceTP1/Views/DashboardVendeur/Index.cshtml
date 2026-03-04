@@ -1,0 +1,27 @@
+﻿@{
+	Layout = "_Layout";
+}
+
+<h2 class="mb-2 text-primary">Dashboard Vendeur</h2>
+<p class="text-muted">Bienvenue sur votre espace vendeur.</p>
+<hr />
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <h4>Nombre de produits en vente</h4>
+            <br />
+            <strong style="font-size:150%;">@ViewBag.Produits</strong>
+        </div>
+        <div class="col">
+            <h4>Nombre de factures produites</h4>
+            <br />
+            <strong style="font-size:150%;">@ViewBag.Factures</strong>
+        </div>
+        <div class="col">
+            <h4>Ventes réalisées</h4>
+            <br />
+            <strong style="font-size:150%;">@ViewBag.Ventes $</strong>
+        </div>
+    </div>
+</div>

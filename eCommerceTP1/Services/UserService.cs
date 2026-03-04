@@ -10,6 +10,7 @@ namespace eCommerceTP1.Services
         {
             _dbContext = dbContext;
         }
+        // Cette fonction charge également le panier de l'utilisateur (ou rien s'il s'agit d'un vendeur)
         public User? GetUserById(int id) 
         {
             User? user = _dbContext.Users.Include(u => u.Panier).FirstOrDefault(u => u.Id == id);
