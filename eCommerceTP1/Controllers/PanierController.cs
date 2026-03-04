@@ -41,24 +41,24 @@ namespace eCommerceTP1.Controllers
         }
         // Cette action ne rafraîchit pas la page et ne retourne qu'un JSON
         [HttpPost]
-        public IActionResult AddProduitToPanier(int id) 
+        public IActionResult AddProduitToPanier(int id) // id Api de produit
         {
             User? user = GetUser();
             if (user == null) 
             {
                 return NotFound();
             }
-            Produit? produit = _produitService.GetProduitById(id);
+            ProduitAPI? produit = ProduitResponseGlobal.Products.Find(p => p.Id == id);
             if (produit == null) 
             {
                 Debug.WriteLine("Produit pas trouvé lors de AddProduitToPanier");
                 return NotFound();
             }
-            _panierService.AddProduitPanier(user.Panier, produit);
+            _panierService.AddProduitPanier(user.Panier, produit.Id);
             return Json(new
             {
                 titre = "✅ Nouveau produit!",
-                message = $"{produit.GetAPIProduit().Title} ajouté au panier."
+                message = $"{produit.Title} ajouté au panier."
             });
         }
         [HttpPost]
@@ -75,7 +75,7 @@ namespace eCommerceTP1.Controllers
                 Debug.WriteLine("Produit pas trouvé lors de RemoveProduitFromPanier");
                 return NotFound();
             }
-            bool success = _panierService.SubstractProduitPanier(user.Panier, produit);
+            bool success = _panierService.SubstractProduitPanier(user.Panier, produit.Id);
             if (success == true) 
             {
                 return Json(new

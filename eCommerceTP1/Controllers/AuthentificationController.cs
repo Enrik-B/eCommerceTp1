@@ -20,6 +20,7 @@ namespace eCommerceTP1.Controllers
         public IActionResult Inscription(User user)
         {
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            if (user.Role == "Client") { user.Panier = new Panier(); }
             _context.Users.Add(user);
             _context.SaveChanges();
             return RedirectToAction("Login");

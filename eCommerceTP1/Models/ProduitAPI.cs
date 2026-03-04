@@ -15,7 +15,19 @@ namespace eCommerceTP1.Models
         // Lien URL à l'image
         public string Image { get; set; }
         public List<string> Images { get; set; }
+
+        public ProduitAPI(int Id, string Title, string Description, Decimal Price, string Category, List<string> Images) 
+        {
+            this.Id = Id;
+            this.Title = Title;
+            this.Description = Description;
+            this.Price = Price;
+            this.Category = Category;
+            this.Images = Images;
+            this.Image = Images.FirstOrDefault();
+        }
     }
+
     public static class ProduitResponseGlobal
     {
         public static List<ProduitAPI>? Products { get; set; }

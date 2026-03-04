@@ -1,7 +1,16 @@
 ﻿using eCommerceTP1.Models;
 using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
 using System.Diagnostics;
 using System.Text.Json;
+=======
+using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Text.Json;
+using eCommerceTP1.Services;
+using System.Diagnostics;
+>>>>>>> 5e46e0ccc953a4c46aea9c001c70729fdd0eb34c
 
 namespace eCommerceTP1.Controllers
 {
