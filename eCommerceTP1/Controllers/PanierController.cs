@@ -11,6 +11,7 @@ namespace eCommerceTP1.Controllers
         private readonly PanierService _panierService;
         private readonly UserService _userService;
         private readonly ProduitService _produitService;
+        private readonly CommandeService _commandeService;
         private readonly eCommerceTP1DbContext _context;
 
         private User? GetUser() 
@@ -19,11 +20,12 @@ namespace eCommerceTP1.Controllers
             User? user = _userService.GetUserById(int.Parse(Id));
             return user;
         }
-        public PanierController(PanierService panierService, UserService userservice, ProduitService produitService, eCommerceTP1DbContext context)
+        public PanierController(PanierService panierService, UserService userservice, ProduitService produitService, eCommerceTP1DbContext context, CommandeService commandeService)
         {
             _panierService = panierService;
             _userService = userservice;
             _produitService = produitService;
+            _commandeService = commandeService;
             _context = context;
         }
         public IActionResult Index()
@@ -63,6 +65,27 @@ namespace eCommerceTP1.Controllers
                 titre = "✅ Nouveau produit!",
                 message = $"{produit.Title} ajouté au panier."
             });
+        }
+      
+       public IActionResult Recap()
+        {
+            var user = GetUser();
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Panier");
+            }
+
+            var panier = _context.Paniers
+                .Include(p => p.ProduitsPanier)
+                .ThenInclude(pp => pp.Produit)
+                .FirstOrDefault(p => p.UserId == user.Id);
+
+            if (panier == null)
+            {
+                return RedirectToAction("Index", "Panier");
+            }
+
+            return View("RecapCommande", panier);
         }
         [HttpPost]
         public IActionResult RemoveProduitFromPanier(int id) 

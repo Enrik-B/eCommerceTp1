@@ -19,7 +19,7 @@ namespace eCommerceTP1
         public DbSet<Models.ProduitPanier> ProduitPaniers { get; set; }
         public DbSet<Models.Facture> Factures { get; set; }
         public DbSet<Models.ProduitFacture> ProduitFactures { get; set; }
-
+        public DbSet<Models.Commande> Commandes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

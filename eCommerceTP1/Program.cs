@@ -23,6 +23,7 @@ namespace eCommerceTP1
             builder.Services.AddScoped<FactureService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<ProduitService>();
+            builder.Services.AddScoped<CommandeService>();
             builder.Services.AddDbContext<eCommerceTP1DbContext>(
                 options => options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
                 ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
