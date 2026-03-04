@@ -1,0 +1,63 @@
+﻿@model IEnumerable<eCommerceTP1.Models.Produit>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	Layout = "_Layout";
+}
+<h1>Vos produits en vente</h1>
+<h2>Total: @Model.Count() produits</h2>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Nom</th>
+			<th scope="col">Categorie</th>
+			<th scope="col">Prix</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var produit in Model)
+		{
+			<tr>
+				<th scope="row">@produit.Id</th>
+				<td>
+					<a asp-controller ="DashboardClient"
+					asp-action="DetailProduit"
+					asp-route-id="@produit.Id">
+					@produit.Title</a>
+				</td>
+				<td>@produit.Category</td>
+				<td>@Math.Round(produit.Price,2) $</td>
+				<td>
+					<form method="get">
+					<button class="btn btn-warning btn-sm"
+							asp-controller="Vendeur"
+							asp-action="ProduitDetail"
+							asp-route-id="@produit.Id">
+						Modifier
+					</button>
+					</form>
+				</td>
+				<td>
+					<form method="post">
+					<button class="btn btn-danger btn-sm"
+							asp-controller="Vendeur"
+							asp-action="SupprimerProduit"
+							asp-route-id="@produit.Id">
+						Supprimer
+					</button>
+					</form>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<form method="get">
+	<button class="btn btn-success btn-sm"
+			asp-controller="Vendeur"
+			asp-action="AddProduit">
+		Ajouter un nouveau produit
+	</button>
+</form>
+

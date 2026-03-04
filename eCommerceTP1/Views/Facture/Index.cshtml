@@ -1,0 +1,39 @@
+﻿@model IEnumerable<eCommerceTP1.Models.Facture>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	Layout = "_Layout";
+	var role = Context.Session.GetString("UserRole");
+	decimal sum = 0;
+}
+<h1>Factures</h1>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">@(role == "Client" ? "Vendeur" : "Client")</th>
+			<th scope="col">Date</th>
+			<th scope="col">@(role=="Client" ? "Prix" : "Ventes")</th>
+			<th scope="col">Détails</th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var facture in Model)
+	{
+		decimal price = facture.ProduitsFacture.Sum(prodFacture => prodFacture.Produit.Price * prodFacture.Quantite);
+		sum += price;
+		<tr>
+			<th scope="row">@facture.userId</th>
+			<td>@facture.FactureTime</td>
+			<td>@(Math.Round(price,2) + " $")</td>
+			<td><a class="btn btn-secondary" asp-controller="Facture" asp-action="FactureDetail" asp-route-id="@facture.Id"><i class="bi bi-search"></i></a></td>
+		</tr>
+	}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th scope="row">Total</th>
+			<td></td>
+			<td>@(Math.Round(sum,2)) $</td>
+			<td></td>
+		</tr>
+	</tfoot>
+</table>

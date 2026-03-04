@@ -1,36 +1,26 @@
-﻿@{
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     Layout = "_Layout";
 }
 
-<h2 class="mb-4">Paiement sécurisé</h2>
+<h2 class="mb-4">Finalisation du paiement </h2>
 
-<form id="payment-form" asp-action="Payer" method="post">
+<form id="payment-form" asp-controller="Paiement" asp-action="Payer" method="post">
 
     <div class="row">
         <!-- SECTION CARTE -->
         <div class="col-md-6">
             <h4>Carte bancaire</h4>
-
             <div class="card p-3">
                 <div class="form-group">
                     <label>Nom du titulaire</label>
                     <input name="cardHolderName" class="form-control" required />
                 </div>
 
-                <div>
-                    <label>Numéro de carte</label>
-                    <input id="card-number" class="form-control" />
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col">
-                        <label>Date d'expiration</label>
-                        <input id="card-expiry" class="form-control" />
-                    </div>
-                    <div class="col">
-                        <label>Code CVC</label>
-                        <input id="card-cvc" class="form-control" />
-                    </div>
+                <div class="form-group mt-3">
+                    <label>Carte</label>
+                    <!-- Stripe va monter ici -->
+                    <div id="card-element" class="form-control p-3 mb-3"></div>
                 </div>
 
                 <div id="card-errors" class="text-danger mt-2"></div>
@@ -81,39 +71,22 @@
         </div>
     </div>
 
-    <button class="btn btn-primary mt-4 w-100">
+    <button type="submit" class="btn btn-primary mt-4 w-100">
         Payer @ViewBag.Total $
     </button>
 </form>
 
-
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     var stripe = Stripe('@ViewBag.StripePublicKey');
     var elements = stripe.elements();
-
-    var cardNumber = elements.create('cardNumber');
-    cardNumber.mount('#card-number');
-
-    var cardExpiry = elements.create('cardExpiry');
-    cardExpiry.mount('#card-expiry');
-
-    var cardCvc = elements.create('cardCvc');
-    cardCvc.mount('#card-cvc');
-
-    function showError(event) {
-        document.getElementById('card-errors').textContent = event.error ? event.error.message : '';
-    }
-
-    cardNumber.on('change', showError);
-    cardExpiry.on('change', showError);
-    cardCvc.on('change', showError);
+    var card = elements.create('card');
+    card.mount('#card-element');
 
     var form = document.getElementById('payment-form');
-
     form.addEventListener('submit', function (event) {
         event.preventDefault();
-
-        stripe.createToken(cardNumber).then(function (result) {
+        stripe.createToken(card).then(function (result) {
             if (result.error) {
                 document.getElementById('card-errors').textContent = result.error.message;
             } else {
@@ -122,7 +95,6 @@
                 hiddenInput.setAttribute('name', 'stripeToken');
                 hiddenInput.setAttribute('value', result.token.id);
                 form.appendChild(hiddenInput);
-
                 form.submit();
             }
         });

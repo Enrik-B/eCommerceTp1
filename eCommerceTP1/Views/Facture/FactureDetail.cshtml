@@ -5,8 +5,8 @@
 
 <h1>@("Facture "+Model.Id)</h1>
 <h2>@("Date: "+Model.FactureTime)</h2>
-<h3>@("Client: "+Model.user.Username)</h3>
-<h3>@("Vendeur: "+Model.user.Username)</h3>
+<h3>@("Client: "+ViewBag.Client)</h3>
+<h3>@("Vendeur: "+ViewBag.Vendeur)</h3>
 
 <table class="table table-striped">
 	<thead>

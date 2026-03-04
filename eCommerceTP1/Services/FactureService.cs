@@ -1,4 +1,5 @@
 ﻿using eCommerceTP1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceTP1.Services
 {
@@ -10,8 +11,8 @@ namespace eCommerceTP1.Services
             _dbContext = dbContext;
         }
         public Facture? GetFactureById(int Id) 
-        { 
-            Facture? facture = _dbContext.Factures.Find(Id);
+        {
+            Facture? facture = _dbContext.Factures.Include(f => f.ProduitsFacture).ThenInclude(pf => pf.Produit).FirstOrDefault(f => f.Id == Id);
             return facture;
         }
 
