@@ -15,6 +15,19 @@ namespace eCommerceTP1.Services
             Panier? panier = _dbContext.Paniers.Find(Id);
             return panier;
         }
+        public Panier? GetPanier(HttpContext httpContext)
+        {
+            var panierId = httpContext.Session.GetInt32("PanierId");
+
+            if (panierId == null)
+                return null;
+
+            return _dbContext.Paniers
+                .Include(p => p.ProduitsPanier)
+                .ThenInclude(pp => pp.Produit)
+                .FirstOrDefault(p => p.Id == panierId);
+        }
+ 
         public void AddPanier(Panier panier) 
         {
             _dbContext.Paniers.Add(panier);

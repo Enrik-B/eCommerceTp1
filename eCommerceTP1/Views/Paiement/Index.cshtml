@@ -1,0 +1,130 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<h2 class="mb-4">Paiement sécurisé</h2>
+
+<form id="payment-form" asp-action="Payer" method="post">
+
+    <div class="row">
+        <!-- SECTION CARTE -->
+        <div class="col-md-6">
+            <h4>Carte bancaire</h4>
+
+            <div class="card p-3">
+                <div class="form-group">
+                    <label>Nom du titulaire</label>
+                    <input name="cardHolderName" class="form-control" required />
+                </div>
+
+                <div>
+                    <label>Numéro de carte</label>
+                    <input id="card-number" class="form-control" />
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <label>Date d'expiration</label>
+                        <input id="card-expiry" class="form-control" />
+                    </div>
+                    <div class="col">
+                        <label>Code CVC</label>
+                        <input id="card-cvc" class="form-control" />
+                    </div>
+                </div>
+
+                <div id="card-errors" class="text-danger mt-2"></div>
+            </div>
+        </div>
+
+        <!-- SECTION ADRESSE -->
+        <div class="col-md-6">
+            <h4>Adresse de livraison</h4>
+
+            <div class="card p-3">
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input name="lastName" class="form-control" required />
+                </div>
+
+                <div class="form-group mt-2">
+                    <label>Prénom</label>
+                    <input name="firstName" class="form-control" required />
+                </div>
+
+                <div class="form-group mt-2">
+                    <label>Email</label>
+                    <input name="email" type="email" class="form-control" required />
+                </div>
+
+                <div class="form-group mt-2">
+                    <label>Adresse</label>
+                    <input name="address" class="form-control" required />
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <label>Ville</label>
+                        <input name="city" class="form-control" required />
+                    </div>
+                    <div class="col">
+                        <label>Code postal</label>
+                        <input name="postalCode" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label>Pays</label>
+                    <input name="country" class="form-control" required />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary mt-4 w-100">
+        Payer @ViewBag.Total $
+    </button>
+</form>
+
+
+<script>
+    var stripe = Stripe('@ViewBag.StripePublicKey');
+    var elements = stripe.elements();
+
+    var cardNumber = elements.create('cardNumber');
+    cardNumber.mount('#card-number');
+
+    var cardExpiry = elements.create('cardExpiry');
+    cardExpiry.mount('#card-expiry');
+
+    var cardCvc = elements.create('cardCvc');
+    cardCvc.mount('#card-cvc');
+
+    function showError(event) {
+        document.getElementById('card-errors').textContent = event.error ? event.error.message : '';
+    }
+
+    cardNumber.on('change', showError);
+    cardExpiry.on('change', showError);
+    cardCvc.on('change', showError);
+
+    var form = document.getElementById('payment-form');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(cardNumber).then(function (result) {
+            if (result.error) {
+                document.getElementById('card-errors').textContent = result.error.message;
+            } else {
+                var hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', result.token.id);
+                form.appendChild(hiddenInput);
+
+                form.submit();
+            }
+        });
+    });
+</script>
