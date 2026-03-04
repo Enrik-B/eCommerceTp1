@@ -1,12 +1,22 @@
 ﻿using eCommerceTP1.Models;
 using eCommerceTP1.Services;
 using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
+using System.Diagnostics;
+using System.Text.Json;
+=======
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
+<<<<<<< HEAD
 using static System.Runtime.InteropServices.JavaScript.JSType;
+=======
+using eCommerceTP1.Services;
+using System.Diagnostics;
+>>>>>>> 5e46e0ccc953a4c46aea9c001c70729fdd0eb34c
+>>>>>>> 5fd6552bb063a73667b2c3e9bd5185488f1fffb2
 
 namespace eCommerceTP1.Controllers
 {
@@ -83,58 +93,6 @@ namespace eCommerceTP1.Controllers
             }
 
             return View(produit);
-        }
-
-        //Afficher les données des utilisateurs 
-        public async Task<IActionResult> Profile()
-        {
-            ModelState.Clear();
-            var userIdString = HttpContext.Session.GetString("UserId");
-      
-
-            if (string.IsNullOrEmpty(userIdString))
-                return RedirectToAction("Index", "Home");
-
-            int userId = int.Parse(userIdString);
-
-            var user = await _context.Users.FindAsync(userId);
-
-            if (user == null)
-                return NotFound();
-
-            return View(user);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Profile(User model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var userIdString = HttpContext.Session.GetString("UserId");
-
-            if (string.IsNullOrEmpty(userIdString))
-                return RedirectToAction("Index", "Home");
-
-            int userId = int.Parse(userIdString);
-
-            var user = await _context.Users.FindAsync(userId);
-
-            if (user == null)
-                return NotFound();
-
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Gender = model.Gender;
-            user.Email = model.Email;
-            user.Phone = model.Phone;
-            user.Country = model.Country;
-            user.BirthDate = model.BirthDate;
-
-            await _context.SaveChangesAsync();
-
-            TempData["Message"] = "Profil mis à jour !";
-
-            return RedirectToAction("Profile");
         }
 
     }

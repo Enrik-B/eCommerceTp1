@@ -59,7 +59,59 @@ namespace eCommerceTP1.Controllers
                 return RedirectToAction("Index", "DashboardVendeur");
             }
             return RedirectToAction("Index", "Home");
-        } 
+        }
+
+        //Afficher les données des utilisateurs 
+        public async Task<IActionResult> Profile()
+        {
+            ModelState.Clear();
+            var userIdString = HttpContext.Session.GetString("UserId");
+
+
+            if (string.IsNullOrEmpty(userIdString))
+                return RedirectToAction("Index", "Home");
+
+            int userId = int.Parse(userIdString);
+
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+                return NotFound();
+
+            return View(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Profile(User model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var userIdString = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdString))
+                return RedirectToAction("Index", "Home");
+
+            int userId = int.Parse(userIdString);
+
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+                return NotFound();
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Gender = model.Gender;
+            user.Email = model.Email;
+            user.Phone = model.Phone;
+            user.Country = model.Country;
+            user.BirthDate = model.BirthDate;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Message"] = "Profil mis à jour !";
+
+            return RedirectToAction("Profile");
+        }
     }
 }   
 
