@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8" />
@@ -71,7 +73,8 @@
                             <a href="/DashboardClient/Index" class="nav-link">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Panier/Index">Panier</a>
+                            <a class="nav-link" asp-controller="Panier"
+                               asp-action="Index">Panier</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/Client/Commandes">Commandes</a>
@@ -145,6 +148,21 @@
             document.getElementById("MessageNotification").innerText = message;
             var notif = new bootstrap.Toast(document.getElementById("liveToast"));
             notif.show();
+        }
+    </script>
+
+    <script>
+        function AddToPanier(produitId)
+        {
+            fetch('/Panier/AddProduitToPanier?id='+produitId,
+            {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                showToast(data.titre, data.message);
+            })
+            .catch(error => console.error(error));
         }
     </script>
 

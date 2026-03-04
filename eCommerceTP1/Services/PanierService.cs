@@ -41,6 +41,7 @@ namespace eCommerceTP1.Services
         // Retourne null si le produit n'existe pas dans le Panier.
         public ProduitPanier? estDansPanier(Panier panier, int Id) 
         {
+            List<ProduitPanier>? produitsPanier = _dbContext.ProduitPaniers.Include(pp => pp.Produit).Where(pp => pp.PanierId == panier.Id).ToList();
             foreach (ProduitPanier item in panier.ProduitsPanier)
             {
                 if (item.Produit.Id == Id)
@@ -69,9 +70,9 @@ namespace eCommerceTP1.Services
             _dbContext.SaveChanges();
         }
         // Retourne vrai si l'opération est un succès, sinon faux si le produit n'est pas trouvé.
-        public bool SubstractProduitPanier(Panier panier, int ApiId) 
+        public bool SubstractProduitPanier(Panier panier, int Id) 
         {
-            ProduitPanier? produitPanier = estDansPanier(panier, ApiId);
+            ProduitPanier? produitPanier = estDansPanier(panier, Id);
             if (produitPanier != null)
             {
                 produitPanier.Quantite--;

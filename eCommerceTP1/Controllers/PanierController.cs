@@ -46,7 +46,7 @@ namespace eCommerceTP1.Controllers
         }
         // Cette action ne rafraîchit pas la page et ne retourne qu'un JSON
         [HttpPost]
-        public IActionResult AddProduitToPanier(int id)
+        public IActionResult AddProduitToPanier(int id, bool reloadPage = false)
         {
             User? user = GetUser();
             if (user == null) 
@@ -60,11 +60,19 @@ namespace eCommerceTP1.Controllers
                 return NotFound();
             }
             _panierService.AddProduitPanier(user.Panier, produit.Id);
-            return Json(new
+            if (reloadPage == false)
             {
-                titre = "✅ Nouveau produit!",
-                message = $"{produit.Title} ajouté au panier."
-            });
+                return Json(new
+                {
+                    titre = "✅ Nouveau produit!",
+                    message = $"{produit.Title} ajouté au panier."
+                });
+            }
+            else 
+            {
+                return RedirectToAction("Index");
+            }
+
         }
       
        public IActionResult Recap()
@@ -88,7 +96,7 @@ namespace eCommerceTP1.Controllers
             return View("RecapCommande", panier);
         }
         [HttpPost]
-        public IActionResult RemoveProduitFromPanier(int id) 
+        public IActionResult RemoveProduitFromPanier(int id, bool reloadPage = false) 
         {
             User? user = GetUser();
             if (user == null)
@@ -104,11 +112,19 @@ namespace eCommerceTP1.Controllers
             bool success = _panierService.SubstractProduitPanier(user.Panier, produit.Id);
             if (success == true) 
             {
-                return Json(new
+                if (reloadPage == false)
                 {
-                    titre = "Produit enlevé!",
-                    message = $"{produit.Title} enlevé du panier"
-                });
+                    return Json(new
+                    {
+                        titre = "Produit enlevé!",
+                        message = $"{produit.Title} enlevé du panier"
+                    });
+                }
+                else 
+                {
+                    return RedirectToAction("Index");
+                }
+                
             } else 
             { 
                 return NotFound(); 
