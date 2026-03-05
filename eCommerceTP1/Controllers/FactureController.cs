@@ -26,21 +26,21 @@ namespace eCommerceTP1.Controllers
         public IActionResult Index()
         {
             User? User = GetUser();
-            List<Facture> factures = _context.Factures.Include(f => f.ProduitsFacture).ThenInclude(f => f.Produit).Where(f => f.userId == User.Id).ToList();
+            List<Facture> factures = _context.Factures.Include(f => f.ProduitsFacture).ThenInclude(f => f.Produit).Where(f => f.UserId == User.Id).ToList();
             return View(factures.OrderBy(f => f.Id));
         }
-        public IActionResult FactureDetail(int Id) 
+        public IActionResult FactureDetail(int id)
         {
-            Facture? facture = _factureService.GetFactureById(Id);
-            if (facture != null && GetUser() != null)
-            {
-                
-                return View(facture);
-            }
-            else 
-            {
+            var facture = _context.Factures
+                .Include(f => f.User)
+                .Include(f => f.ProduitsFacture)
+                    .ThenInclude(pf => pf.Produit)
+                .FirstOrDefault(f => f.Id == id);
+
+            if (facture == null || GetUser() == null)
                 return NotFound();
-            }
+
+            return View(facture);
         }
         [HttpPost]
         public IActionResult AddFacture(Facture facture) 
