@@ -8,7 +8,7 @@
 
         <h2 class="text-center mb-4">Connexion</h2>
 
-        <form method="post" asp-action="Login">
+        <form method="post" asp-action="Login" asp-controller="Authentification">
 
             <div class="mb-3">
                 <label class="form-label">Nom d'utilisateur ou Email</label>
@@ -25,16 +25,29 @@
                 <label class="form-check-label">Se souvenir de moi</label>
             </div>
 
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
+
             <button type="submit" class="btn btn-primary w-100">
                 Se connecter
             </button>
 
             <div class="text-center mt-3">
-                <a href="/Authentification/Inscription" asp-action="Inscription">Créer un compte</a>
+                <a asp-controller="Authentification" asp-action="Inscription">Créer un compte</a>
             </div>
 
         </form>
+       
     </div>
 
 </div>
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -47,7 +47,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/Home/Index">
+            <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index" >
                 <img src="~/images/logo.png" alt="Logo"
                      style="height:40px; width:40px; border-radius:50%; object-fit:cover;"
                      class="me-2" />
@@ -70,7 +70,7 @@
                     @if (role == "Client")
                     {
                         <li class="nav-item">
-                            <a href="/DashboardClient/Index" class="nav-link">Dashboard</a>
+                            <a asp-controller="DashboardClient" asp-action="Index"  class="nav-link">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Panier"
@@ -78,25 +78,25 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/Facture/Index">Factures</a>
+                            <a class="nav-link" asp-controller="Facture" asp-action="Index" >Factures</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Authentification/Profile">Profile</a>
+                            <a class="nav-link" asp-controller="Authentification" asp-action="Profile">Profile</a>
                         </li>
                     }
                     else if (role == "Vendeur")
                     {
                         <li class="nav-item">
-                            <a href="/DashboardVendeur/Index" class="nav-link">Dashboard</a>
+                            <a asp-controller="DashboardVendeur" asp-action="Index"  class="nav-link">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Vendeur/Produits">Mes Produits</a>
+                            <a class="nav-link" asp-controller="Vendeur" asp-action="Produits" >Mes Produits</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Facture/Index">Factures</a>
+                            <a class="nav-link" asp-controller="Facture" asp-action="Index" >Factures</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Authentification/Profile">Profile</a>
+                            <a class="nav-link" asp-controller="Authentification" asp-action="Profile" >Profile</a>
                         </li>
                     }
                 </ul>
@@ -106,7 +106,7 @@
                     @if (role != null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-danger" href="/Authentification/Logout">
+                            <a class="nav-link text-danger" asp-controller="Authentification" asp-action="Logout" >
                                 Déconnexion
                             </a>
                         </li>
@@ -114,10 +114,10 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="/Authentification/Login">Connexion</a>
+                            <a class="nav-link" asp-controller="Authentification" asp-action="Login" >Connexion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Authentification/Inscription">Inscription</a>
+                            <a class="nav-link" asp-controller="Authentification" asp-action="Inscription">Inscription</a>
                         </li>
                     }
                 </ul>
@@ -172,6 +172,6 @@
             .catch(error => console.error(error));
         }
     </script>
-
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

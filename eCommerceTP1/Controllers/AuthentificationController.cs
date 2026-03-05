@@ -30,34 +30,39 @@ namespace eCommerceTP1.Controllers
             return RedirectToAction("Login");
         }
 
-        public IActionResult Login() { return View(); }
+        public IActionResult Login() 
+        { 
+            return View(); 
+        }
+
         [HttpPost]
         public IActionResult Login(string Identifier, string Password)
         {
             var user = _context.Users.FirstOrDefault(u => (u.Email == Identifier || u.Username == Identifier));
+
             if (user == null)
             {
-                ViewBag.Error = "Utilisateur introuvable.";
+                ModelState.AddModelError("", "Utilisateur introuvable.");
                 return View();
             }
+
             bool passwordOk = BCrypt.Net.BCrypt.Verify(Password, user.Password);
             if (!passwordOk)
             {
-                ViewBag.Error = "Mot de passe incorrect.";
+                ModelState.AddModelError("", "Mot de passe incorrect.");
                 return View();
             }
+
             // Stockage en session
             HttpContext.Session.SetString("UserId", user.Id.ToString());
             HttpContext.Session.SetString("UserRole", user.Role);
-            // Redirection selon le rôle
+
             if (user.Role == "Client")
-            {
                 return RedirectToAction("Index", "DashboardClient");
-            }
-            else if (user.Role == "Vendeur")
-            {
+
+            if (user.Role == "Vendeur")
                 return RedirectToAction("Index", "DashboardVendeur");
-            }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -111,6 +116,11 @@ namespace eCommerceTP1.Controllers
             TempData["Message"] = "Profil mis à jour !";
 
             return RedirectToAction("Profile");
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
         }
     }
 }   
