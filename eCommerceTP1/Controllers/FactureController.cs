@@ -26,34 +26,31 @@ namespace eCommerceTP1.Controllers
         public IActionResult Index()
         {
             User? User = GetUser();
-            List<Facture> factures = _context.Factures.Include(f => f.ProduitsFacture).ThenInclude(f => f.Produit).Where(f => f.UserId == User.Id).ToList();
-            return View(factures.OrderBy(f => f.Id));
+            if (User.Role == "Client")
+            {
+                List<Facture> factures = _context.Factures.Include(f => f.ProduitsFacture).ThenInclude(f => f.Produit).Where(f => f.ClientId == User.Id).ToList();
+                return View(factures.OrderBy(f => f.Id));
+            }
+            else 
+            {
+                List<Facture> factures = _context.Factures.Include(f => f.ProduitsFacture).ThenInclude(f => f.Produit).Where(f => f.VendeurId == User.Id).ToList();
+                return View(factures.OrderBy(f => f.Id));
+            }
+
         }
         public IActionResult FactureDetail(int id)
         {
             Facture? facture = _factureService.GetFactureById(id);
             if (facture != null && GetUser() != null)
             {
-                ViewBag.Client = _context.Users.FirstOrDefault(u => u.Id == facture.ClientId);
-                ViewBag.Vendeur = _context.Users.FirstOrDefault(u => u.Id == facture.VendeurId);
+                ViewBag.Client = _context.Users.FirstOrDefault(u => u.Id == facture.ClientId)?.Username ?? "";
+                ViewBag.Vendeur = _context.Users.FirstOrDefault(u => u.Id == facture.VendeurId)?.Username ?? "";
                 return View(facture);
             }
             else 
             {
                 return NotFound();
             }
-            /* 
-             * var facture = _context.Factures
-                .Include(f => f.User)
-                .Include(f => f.ProduitsFacture)
-                    .ThenInclude(pf => pf.Produit)
-                .FirstOrDefault(f => f.Id == id);
-
-            if (facture == null || GetUser() == null)
-                return NotFound();
-
-            return View(facture);
-            */
         }
         [HttpPost]
         public IActionResult AddFacture(Facture facture) 

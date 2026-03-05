@@ -1,4 +1,5 @@
 ﻿using eCommerceTP1.Models;
+using eCommerceTP1.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -12,11 +13,13 @@ namespace eCommerceTP1.Controllers
     {
         private readonly StripeSettings _stripeSettings;
         private readonly eCommerceTP1DbContext _context;
-        public PaiementController(IOptions<StripeSettings> stripeSettings, eCommerceTP1DbContext context)
+        private readonly PanierService _panierService;
+        public PaiementController(IOptions<StripeSettings> stripeSettings, eCommerceTP1DbContext context, PanierService panierService)
         {
             _stripeSettings = stripeSettings.Value;
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
             _context = context;
+            _panierService = panierService;
         }
         public IActionResult Index()
         {
@@ -64,23 +67,33 @@ namespace eCommerceTP1.Controllers
                     {
                         return RedirectToAction("Refuse");
                     }
-
-                    // Calcul du total
-                    decimal total = panier.ProduitsPanier
-                        .Sum(pp => pp.Produit.Price * pp.Quantite);
-
-                    // Création de la facture
-                    var facture = new Facture
+                    // Grouper les produits par vendeur
+                    var GroupeProduits = panier.ProduitsPanier.GroupBy(pp => pp.Produit.VendeurId);
+                    foreach (var groupe in GroupeProduits) 
                     {
-                        UserId = userId,
-                        MontantTotal = total,
-                        StatutPaiement = "Payée",
-                        StripePaymentId = charge.Id
-                    };
-
-                    _context.Factures.Add(facture);
+                        decimal total = groupe.Sum(pp => pp.Produit.Price * pp.Quantite);
+                        var facture = new Facture
+                        {
+                            UserId = userId,
+                            ClientId = userId,
+                            VendeurId = groupe.Key,
+                            MontantTotal = total,
+                            StatutPaiement = "Payée",
+                            StripePaymentId = charge.Id,
+                            ProduitsFacture = new List<ProduitFacture>()
+                        };
+                        foreach (ProduitPanier pp in groupe)
+                        {
+                            facture.ProduitsFacture.Add(new ProduitFacture()
+                            {
+                                ProduitId = pp.ProduitId,
+                                Quantite = pp.Quantite
+                            });
+                        }
+                        _context.Factures.Add(facture);
+                    }
+                    panier.ProduitsPanier.Clear();
                     await _context.SaveChangesAsync();
-
                     return RedirectToAction("Succes");
                 }
 
