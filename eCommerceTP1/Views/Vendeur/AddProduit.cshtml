@@ -1,0 +1,40 @@
+﻿@model eCommerceTP1.Models.Produit
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<h2>Ajouter un produit</h2>
+
+<form asp-action="AddProduit" method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label class="form-label">Nom</label>
+        <input asp-for="Title" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Catégorie</label>
+        <input asp-for="Category" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Prix</label>
+        <input asp-for="Price" class="form-control" type="number" step="0.01" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Image (depuis PC)</label>
+        <input type="file" name="imageFile" class="form-control" accept="image/*" />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Ajouter
+    </button>
+
+</form>

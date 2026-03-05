@@ -31,7 +31,7 @@ namespace eCommerceTP1.Controllers
         }
         public IActionResult FactureDetail(int id)
         {
-            Facture? facture = _factureService.GetFactureById(Id);
+            Facture? facture = _factureService.GetFactureById(id);
             if (facture != null && GetUser() != null)
             {
                 ViewBag.Client = _context.Users.FirstOrDefault(u => u.Id == facture.ClientId);
