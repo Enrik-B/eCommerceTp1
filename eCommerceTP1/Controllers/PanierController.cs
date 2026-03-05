@@ -11,7 +11,6 @@ namespace eCommerceTP1.Controllers
         private readonly PanierService _panierService;
         private readonly UserService _userService;
         private readonly ProduitService _produitService;
-        private readonly CommandeService _commandeService;
         private readonly eCommerceTP1DbContext _context;
 
         private User? GetUser() 
@@ -20,12 +19,11 @@ namespace eCommerceTP1.Controllers
             User? user = _userService.GetUserById(int.Parse(Id));
             return user;
         }
-        public PanierController(PanierService panierService, UserService userservice, ProduitService produitService, eCommerceTP1DbContext context, CommandeService commandeService)
+        public PanierController(PanierService panierService, UserService userservice, ProduitService produitService, eCommerceTP1DbContext context)
         {
             _panierService = panierService;
             _userService = userservice;
             _produitService = produitService;
-            _commandeService = commandeService;
             _context = context;
         }
         public IActionResult Index()

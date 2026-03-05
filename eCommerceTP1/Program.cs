@@ -20,7 +20,6 @@ namespace eCommerceTP1
             builder.Services.AddScoped<FactureService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<ProduitService>();
-            builder.Services.AddScoped<CommandeService>();
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
             builder.Services.AddDbContext<eCommerceTP1DbContext>(
