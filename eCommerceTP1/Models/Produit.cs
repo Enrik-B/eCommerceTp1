@@ -11,10 +11,8 @@ namespace eCommerceTP1.Models
         public string? Description { get; set; }
         public Decimal Price { get; set; }
         public string? Category { get; set; }
-        // Lien URL à l'image
         public string? Image { get; set; }
         public List<string>? Images { get; set; }
-        // Produit publié par un vendeur
         [ForeignKey("VendeurId")]
         public int VendeurId { get; set; }
         public User Vendeur { get; set; }

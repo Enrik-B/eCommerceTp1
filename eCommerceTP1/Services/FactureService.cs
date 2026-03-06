@@ -21,12 +21,5 @@ namespace eCommerceTP1.Services
             _context.Factures.Add(facture);
             _context.SaveChanges();
         }
-        /*
-        public List<Facture>? CommandeToFacture(int Id) 
-        {
-            Commande? commande = _context.Commandes.Include(c => c.commandeProduits).ThenInclude(cp => cp.Produit).FirstOrDefault(c => c.Id == Id);
-            // preparer une liste vide de Vendeurs qui s'agrandit selon nombre de vendeurs trouvés à travers tous les produits mentionnés
-        }   
-        */
     }
 }

@@ -56,8 +56,6 @@ namespace eCommerceTP1.Controllers
                 produits = produits.Where(p =>
                     p.Category.Equals(category, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-
-            // Liste des catégories pour le dropdown
             ViewBag.Categories = produits?.Select(p => p.Category).Distinct().ToList();
 
             return View(produits);
