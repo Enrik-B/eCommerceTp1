@@ -21,7 +21,7 @@
         <p>@Model.Category</p>
 
         <h4>Prix</h4>
-        <p class="fw-bold text-primary">@Model.Price $</p>
+        <p class="fw-bold text-primary">@Math.Round(Model.Price,2) $</p>
 
         <a asp-action="Index" class="btn btn-secondary w-100">
             Retour
